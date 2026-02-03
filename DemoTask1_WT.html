@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Donation Form</title>
+</head>
+<body>
+
+    <h2>Donation Form</h2>
+
+    <form>
+
+        
+        <label for="name">Full Name</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        
+        <label for="email">Email</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+       
+        <label for="phone">Phone Number</label><br>
+        <input type="tel" id="phone" name="phone"><br><br>
+
+       
+        <label for="amount">Donation Amount </label><br>
+        <input type="number" id="amount" name="amount" min="1" required><br><br>
+
+        
+        <label for="donationType">Donation Type</label><br>
+        <select id="donationType" name="donationType">
+            <option value="">-- Select an Option--</option>
+            <option value="education">Education</option>
+            <option value="health">Health</option>
+            <option value="food">Food Relief</option>
+            <option value="disaster">Disaster Relief</option>
+        </select><br><br>
+
+        
+        <label>Payment Method</label><br>
+        <input type="radio" name="payment" value="bkash" required> bKash<br>
+        <input type="radio" name="payment" value="nagad"> Nagad<br>
+        <input type="radio" name="payment" value="card"> Card<br><br>
+
+       
+        <label>Additional Options</label><br>
+        <input type="checkbox" name="anonymous"> Donate Anonymously<br>
+        <input type="checkbox" name="receipt"> Send me a receipt<br><br>
+
+        
+        <label for="message">Message / Purpose</label><br>
+        <textarea id="message" name="message" rows="4" cols="40"></textarea><br><br>
+
+        
+        <button type="submit">Donate Now</button>
+        <button type="reset">Reset</button>
+
+    </form>
+
+</body>
+</html>
