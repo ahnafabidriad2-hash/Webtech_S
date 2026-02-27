@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab Task 01</title>
+</head>
+<body>
+
+<h2>JavaScript Lab Task 01</h2>
+
+<script>
+    alert("First java script lesson");
+
+    console.log("Welcome to JavaScript!");
+
+    document.write("<h3>Welcome to JavaScript!</h3>");
+
+    var studentName = "Riad";
+    var studentAge = 20;
+
+    var nextYearAge = studentAge + 1;
+
+    document.write("Student Name: " + studentName + "<br>");
+    document.write("Student Age: " + studentAge + "<br>");
+    document.write("Age Next Year: " + nextYearAge + "<br>");
+
+    alert("Enter numbers for sum and sub-");
+    var num1 = prompt("Enter first number:");
+    var num2 = prompt("Enter second number:");
+
+    num1 = Number(num1);
+    num2 = Number(num2);
+
+    var sum = num1 + num2;
+    var difference = num1 - num2;
+    var product = num1 * num2;
+
+    document.write("Sum: " + sum + "<br>");
+    document.write("Difference: " + difference + "<br>");
+    document.write("Product: " + product + "<br>");
+
+    var checkNumber = prompt("Enter a number to check Even or Odd:");
+    checkNumber = Number(checkNumber);
+
+    if (checkNumber % 2 == 0) {
+        document.write(checkNumber + " is Even");
+    } else {
+        document.write(checkNumber + " is Odd");
+    }
+
+</script>
+
+</body>
+</html>

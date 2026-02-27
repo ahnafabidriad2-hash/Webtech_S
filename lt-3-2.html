@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab Task 03</title>
+</head>
+<body>
+
+<h2>Lab Task 03</h2>
+
+<script>
+    document.write("<h3> Arrays</h3>");
+
+    var courses = ["Web Tech", "Data Structures", "Algorithms", "Database", "AI"];
+
+    document.write("Course List:<br>");
+    for (var i = 0; i < courses.length; i++) {
+        document.write(courses[i] + "<br>");
+    }
+
+    courses.push("Operating Systems");
+
+    document.write("<br>After Adding New Course:<br>");
+    for (var i = 0; i < courses.length; i++) {
+        document.write(courses[i] + "<br>");
+    }
+
+
+    document.write("<h3> Array Operations</h3>");
+
+    document.write("Array Length: " + courses.length + "<br>");
+    courses.pop();
+
+    courses.unshift("Computer Networks");
+
+    document.write("<br>Final Array:<br>");
+    for (var i = 0; i < courses.length; i++) {
+        document.write(courses[i] + "<br>");
+    }
+
+
+    document.write("<h3> Basic Object</h3>");
+
+    var student = {
+        name: "John",
+        id: "12345",
+        department: "CSE",
+        cgpa: 3.75
+    };
+
+    document.write("Name: " + student.name + "<br>");
+    document.write("ID: " + student.id + "<br>");
+    document.write("Department: " + student.department + "<br>");
+    document.write("CGPA: " + student.cgpa + "<br>");
+
+    document.write("<h3>Array of Objects</h3>");
+
+    var students = [
+        {name: "Riad", id: "101", department: "CSE", cgpa: 3.80},
+        {name: "Luba", id: "102", department: "EEE", cgpa: 3.50},
+        {name: "Hope", id: "103", department: "BBA", cgpa: 3.60}
+    ];
+
+    for (var i = 0; i < students.length; i++) {
+        document.write("<br>Student " + (i + 1) + "<br>");
+        document.write("Name: " + students[i].name + "<br>");
+        document.write("ID: " + students[i].id + "<br>");
+        document.write("Department: " + students[i].department + "<br>");
+        document.write("CGPA: " + students[i].cgpa + "<br>");
+    }
+
+</script>
+
+</body>
+</html>
