@@ -4,247 +4,214 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University Library System</title>
-    <link rel="stylesheet" href="public/css/style.css">
 </head>
 <body>
 
-<div class="header">
-    <div>
-        <h1>University Library Management System</h1>
-        <p>Manage book records — Add, View, Edit, Delete</p>
-    </div>
+<h1>University Library Management System</h1>
+<p>Manage book records — Add, View, Edit, Delete</p>
+
+<div id="message"></div>
+
+<!-- Add Book Form -->
+<h2>Add New Book</h2>
+
+<label>Book Title</label><br>
+<input type="text" id="add_title" placeholder="Enter book title"><br><br>
+
+<label>Author Name</label><br>
+<input type="text" id="add_author" placeholder="Enter author name"><br><br>
+
+<label>Category</label><br>
+<input type="text" id="add_category" placeholder="Enter category"><br><br>
+
+<label>Availability Status</label><br>
+<select id="add_status">
+    <option value="">-- Select Status --</option>
+    <option value="Available">Available</option>
+    <option value="Not Available">Not Available</option>
+</select><br><br>
+
+<button onclick="addBook()">Add Book</button>
+
+<hr>
+
+<!-- Edit Book Form -->
+<div id="editSection" style="display:none;">
+    <h2>Edit Book</h2>
+
+    <input type="hidden" id="edit_id">
+
+    <label>Book Title</label><br>
+    <input type="text" id="edit_title"><br><br>
+
+    <label>Author Name</label><br>
+    <input type="text" id="edit_author"><br><br>
+
+    <label>Category</label><br>
+    <input type="text" id="edit_category"><br><br>
+
+    <label>Availability Status</label><br>
+    <select id="edit_status">
+        <option value="Available">Available</option>
+        <option value="Not Available">Not Available</option>
+    </select><br><br>
+
+    <button onclick="updateBook()">Save Changes</button>
+    <button onclick="cancelEdit()">Cancel</button>
+
+    <hr>
 </div>
 
-<div class="container">
-    <div id="alertBox" class="alert"></div>
-
-    <div class="card">
-        <div class="card-title">Add New Book</div>
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="add_title">Book Title</label>
-                <input type="text" id="add_title" placeholder="e.g. Introduction to Algorithms">
-            </div>
-            <div class="form-group">
-                <label for="add_author">Author Name</label>
-                <input type="text" id="add_author" placeholder="e.g. Thomas Cormen">
-            </div>
-            <div class="form-group">
-                <label for="add_category">Category</label>
-                <input type="text" id="add_category" placeholder="e.g. Computer Science">
-            </div>
-            <div class="form-group">
-                <label for="add_status">Availability Status</label>
-                <select id="add_status">
-                    <option value="">-- Select Status --</option>
-                    <option value="Available">Available</option>
-                    <option value="Not Available">Not Available</option>
-                </select>
-            </div>
-        </div>
-        <div class="btn-row">
-            <button class="btn btn-primary" onclick="addBook()">Add Book</button>
-        </div>
-    </div>
-
-    <div class="card" id="editSection" style="display:none;">
-        <div class="card-title">Edit Book Details</div>
-        <input type="hidden" id="edit_id">
-        <div class="form-grid">
-            <div class="form-group">
-                <label for="edit_title">Book Title</label>
-                <input type="text" id="edit_title">
-            </div>
-            <div class="form-group">
-                <label for="edit_author">Author Name</label>
-                <input type="text" id="edit_author">
-            </div>
-            <div class="form-group">
-                <label for="edit_category">Category</label>
-                <input type="text" id="edit_category">
-            </div>
-            <div class="form-group">
-                <label for="edit_status">Availability Status</label>
-                <select id="edit_status">
-                    <option value="Available">Available</option>
-                    <option value="Not Available">Not Available</option>
-                </select>
-            </div>
-        </div>
-        <div class="btn-row">
-            <button class="btn btn-warning" onclick="updateBook()">Save Changes</button>
-            <button class="btn btn-secondary" onclick="cancelEdit()">Cancel</button>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-title">All Books in Library</div>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Book Title</th>
-                        <th>Author</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="bookTableBody">
-                    <tr>
-                        <td colspan="6">
-                            <div class="empty-state">
-                                <p>Loading books...</p>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+<!-- Book Table -->
+<h2>All Books</h2>
+<table border="1" cellpadding="8" cellspacing="0">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="bookTableBody">
+        <tr>
+            <td colspan="6">Loading...</td>
+        </tr>
+    </tbody>
+</table>
 
 <script>
-function showAlert(message, type) {
-    const box = document.getElementById('alertBox');
-    box.textContent = message;
-    box.className = 'alert alert-' + type;
-    box.style.display = 'block';
-    setTimeout(() => box.style.display = 'none', 4000);
-}
+    function showMessage(text) {
+        document.getElementById('message').innerHTML = '<p>' + text + '</p>';
+    }
 
-function clearAddForm() {
-    document.getElementById('add_title').value = '';
-    document.getElementById('add_author').value = '';
-    document.getElementById('add_category').value = '';
-    document.getElementById('add_status').value = '';
-}
+    function clearAddForm() {
+        document.getElementById('add_title').value = '';
+        document.getElementById('add_author').value = '';
+        document.getElementById('add_category').value = '';
+        document.getElementById('add_status').value = '';
+    }
 
-function loadBooks() {
-    fetch('controller/book_controller.php?action=read')
-        .then(res => res.json())
-        .then(data => {
-            const tbody = document.getElementById('bookTableBody');
+    function loadBooks() {
+        fetch('controller/book_controller.php?action=read')
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            var tbody = document.getElementById('bookTableBody');
+
             if (data.data.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><p>No books found.</p></div></td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6">No books found.</td></tr>';
                 return;
             }
 
-            let html = '';
-            data.data.forEach((book, i) => {
-                const badgeClass = (book.status === 'Available') ? 'badge-available' : 'badge-unavailable';
-                html += `<tr>
-                    <td>${i + 1}</td>
-                    <td><strong>${escapeHtml(book.title)}</strong></td>
-                    <td>${escapeHtml(book.author)}</td>
-                    <td>${escapeHtml(book.category)}</td>
-                    <td><span class="badge ${badgeClass}">${escapeHtml(book.status)}</span></td>
-                    <td>
-                        <button class="btn btn-edit btn-sm" onclick="openEditForm(${book.id})">Edit</button>
-                        <button class="btn btn-delete btn-sm" onclick="deleteBook(${book.id})">Delete</button>
-                    </td>
-                </tr>`;
-            });
+            var html = '';
+            for (var i = 0; i < data.data.length; i++) {
+                var book = data.data[i];
+                html += '<tr>';
+                html += '<td>' + (i + 1) + '</td>';
+                html += '<td>' + book.title + '</td>';
+                html += '<td>' + book.author + '</td>';
+                html += '<td>' + book.category + '</td>';
+                html += '<td>' + book.status + '</td>';
+                html += '<td>';
+                html += '<button onclick="openEditForm(' + book.id + ')">Edit</button> ';
+                html += '<button onclick="deleteBook(' + book.id + ')">Delete</button>';
+                html += '</td>';
+                html += '</tr>';
+            }
+
             tbody.innerHTML = html;
-        })
-        .catch(err => console.error(err));
-}
-
-function addBook() {
-    const title = document.getElementById('add_title').value.trim();
-    const author = document.getElementById('add_author').value.trim();
-    const category = document.getElementById('add_category').value.trim();
-    const status = document.getElementById('add_status').value;
-
-    if (!title || !author || !category || !status) {
-        return showAlert('Please fill in all fields.', 'error');
+        });
     }
 
-    const formData = new FormData();
-    formData.append('action', 'add');
-    formData.append('title', title);
-    formData.append('author', author);
-    formData.append('category', category);
-    formData.append('status', status);
+    function addBook() {
+        var title = document.getElementById('add_title').value;
+        var author = document.getElementById('add_author').value;
+        var category = document.getElementById('add_category').value;
+        var status = document.getElementById('add_status').value;
 
-    fetch('controller/book_controller.php', { method: 'POST', body: formData })
-        .then(res => res.json())
-        .then(data => {
+        if (title === '' || author === '' || category === '' || status === '') {
+            showMessage('Please fill in all fields.');
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('action', 'add');
+        formData.append('title', title);
+        formData.append('author', author);
+        formData.append('category', category);
+        formData.append('status', status);
+
+        fetch('controller/book_controller.php', { method: 'POST', body: formData })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            showMessage(data.message);
             if (data.success) {
-                showAlert(data.message, 'success');
                 clearAddForm();
                 loadBooks();
-            } else {
-                showAlert(data.message, 'error');
             }
         });
-}
+    }
 
-function openEditForm(id) {
-    fetch('controller/book_controller.php?action=getOne&id=' + id)
-        .then(res => res.json())
-        .then(data => {
+    function openEditForm(id) {
+        fetch('controller/book_controller.php?action=getOne&id=' + id)
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
             if (data.success) {
-                const book = data.data;
+                var book = data.data;
                 document.getElementById('edit_id').value = book.id;
                 document.getElementById('edit_title').value = book.title;
                 document.getElementById('edit_author').value = book.author;
                 document.getElementById('edit_category').value = book.category;
                 document.getElementById('edit_status').value = book.status;
                 document.getElementById('editSection').style.display = 'block';
-                document.getElementById('editSection').scrollIntoView({ behavior: 'smooth' });
             }
         });
-}
+    }
 
-function updateBook() {
-    const formData = new FormData();
-    formData.append('action', 'update');
-    formData.append('id', document.getElementById('edit_id').value);
-    formData.append('title', document.getElementById('edit_title').value.trim());
-    formData.append('author', document.getElementById('edit_author').value.trim());
-    formData.append('category', document.getElementById('edit_category').value.trim());
-    formData.append('status', document.getElementById('edit_status').value);
+    function updateBook() {
+        var formData = new FormData();
+        formData.append('action', 'update');
+        formData.append('id', document.getElementById('edit_id').value);
+        formData.append('title', document.getElementById('edit_title').value);
+        formData.append('author', document.getElementById('edit_author').value);
+        formData.append('category', document.getElementById('edit_category').value);
+        formData.append('status', document.getElementById('edit_status').value);
 
-    fetch('controller/book_controller.php', { method: 'POST', body: formData })
-        .then(res => res.json())
-        .then(data => {
+        fetch('controller/book_controller.php', { method: 'POST', body: formData })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            showMessage(data.message);
             if (data.success) {
-                showAlert(data.message, 'success');
                 cancelEdit();
                 loadBooks();
             }
         });
-}
+    }
 
-function cancelEdit() {
-    document.getElementById('editSection').style.display = 'none';
-}
+    function cancelEdit() {
+        document.getElementById('editSection').style.display = 'none';
+    }
 
-function deleteBook(id) {
-    if (!confirm('Are you sure?')) return;
-    const formData = new FormData();
-    formData.append('action', 'delete');
-    formData.append('id', id);
+    function deleteBook(id) {
+        if (!confirm('Are you sure you want to delete this book?')) return;
 
-    fetch('controller/book_controller.php', { method: 'POST', body: formData })
-        .then(res => res.json())
-        .then(data => {
+        var formData = new FormData();
+        formData.append('action', 'delete');
+        formData.append('id', id);
+
+        fetch('controller/book_controller.php', { method: 'POST', body: formData })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            showMessage(data.message);
             if (data.success) {
-                showAlert(data.message, 'success');
                 loadBooks();
             }
         });
-}
+    }
 
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-window.onload = loadBooks;
+    window.onload = loadBooks;
 </script>
 
 </body>
